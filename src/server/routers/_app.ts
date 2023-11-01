@@ -1,19 +1,16 @@
-import { z } from 'zod';
-import { procedure, router } from '../trpc';
+/**
+ * This file contains the root router of your tRPC-backend
+ */
+import { prisma } from '@/server/prisma';
+import { publicProcedure, router } from '../trpc';
+
 
 export const appRouter = router({
-  hello: procedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
+    getWishList: publicProcedure
+    .query(async () => {
+      return await prisma.wishList.findMany()
     }),
+
 });
 
-// export type definition of API
 export type AppRouter = typeof appRouter;

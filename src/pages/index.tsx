@@ -1,13 +1,19 @@
 import { trpc } from '../utils/trpc';
 
 export default function IndexPage() {
-  const hello = trpc.hello.useQuery({ text: 'client' });
-  if (!hello.data) {
-    return <div>Loading...</div>;
+
+
+  const wishList = trpc.getWishList.useQuery()
+
+  console.log(wishList.data)
+
+  if (!wishList.data) {
+    return "No data"
   }
+
   return (
     <div>
-      <p>{hello.data.greeting}</p>
+    <p>{wishList.data.map((wish) => wish.id)}</p>
     </div>
   );
 }
